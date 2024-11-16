@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chronos - Luxury Watches</title>
+    <!-- Load scripts asynchronously -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Preload key images -->
+    <link
+      rel="preload"
+      as="image"
+      href="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg"
+    />
+    <style>
+      :root[data-theme="dark"] {
+        --bg-primary: #0a0a0a;
+        --bg-secondary: #1a1a1a;
+        --bg-tertiary: #2a2a2a;
+        --text-primary: #fff;
+        --accent: #00ff88;
+      }
+
+      :root[data-theme="light"] {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f0f0f0;
+        --bg-tertiary: #e0e0e0;
+        --text-primary: #1a1a1a;
+        --accent: #00aa55;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        overflow-x: hidden;
+        line-height: 1.6;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .header {
+        position: fixed;
+        width: 100%;
+        padding: 20px 50px;
+        z-index: 1000;
+        transition: background-color 0.3s, backdrop-filter 0.3s;
+        will-change: transform;
+      }
+
+      .header.scrolled {
+        background: var(--bg-primary);
+        backdrop-filter: blur(10px);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-size: 1.1rem;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Theme Toggle Button */
+      .theme-toggle {
+        width: 50px;
+        height: 25px;
+        background: var(--bg-tertiary);
+        border-radius: 25px;
+        position: relative;
+        cursor: pointer;
+        margin-left: 20px;
+      }
+
+      .theme-toggle::before {
+        content: "🌙";
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        transition: transform 0.3s;
+      }
+
+      [data-theme="light"] .theme-toggle::before {
+        content: "☀️";
+        transform: translateX(25px);
+      }
+
+      .hero {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 0 50px;
+        position: relative;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .hero-content {
+        width: 50%;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        margin-bottom: 20px;
+      }
+
+      .hero p {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        margin-bottom: 30px;
+      }
+
+      .cta-button {
+        padding: 15px 30px;
+        background: var(--accent);
+        color: var(--bg-primary);
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
+
+      .cta-button:hover {
+        transform: scale(1.05);
+      }
+
+      .hero-image {
+        position: absolute;
+        right: 50px;
+        width: 40%;
+        max-width: 600px;
+      }
+
+      .products {
+        padding: 100px 50px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+      }
+
+      .product-card {
+        background: var(--bg-secondary);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        transition: transform 0.3s;
+        text-decoration: none;
+        color: var(--text-primary);
+        display: block;
+      }
+
+      .product-card:hover {
+        transform: translateY(-10px);
+      }
+
+      .product-card img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        border-radius: 10px;
+      }
+
+      .features {
+        padding: 100px 50px;
+        background: var(--bg-secondary);
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 50px;
+        margin-top: 50px;
+        max-width: 1400px;
+        margin: 50px auto 0;
+      }
+
+      .feature {
+        padding: 30px;
+        background: var(--bg-tertiary);
+        border-radius: 15px;
+        transition: transform 0.3s;
+      }
+
+      .feature:hover {
+        transform: translateY(-10px);
+      }
+
+      .contact {
+        padding: 100px 50px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .contact-form {
+        display: grid;
+        gap: 20px;
+        max-width: 600px;
+        margin: 50px auto 0;
+      }
+
+      .contact-form input,
+      .contact-form textarea {
+        padding: 15px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--bg-tertiary);
+        border-radius: 8px;
+        color: var(--text-primary);
+        font-family: inherit;
+      }
+
+      .contact-form button {
+        padding: 15px 30px;
+        background: var(--accent);
+        color: var(--bg-primary);
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
+
+      .contact-form button:hover {
+        transform: scale(1.05);
+      }
+
+      @media (max-width: 768px) {
+        .hero-content {
+          width: 100%;
+          text-align: center;
+        }
+
+        .hero-image {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <nav>
+        <div class="logo">CHRONOS</div>
+        <div class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#products">Products</a>
+          <a href="#features">Features</a>
+          <a href="#contact">Contact</a>
+          <div class="theme-toggle" id="themeToggle"></div>
+        </div>
+      </nav>
+    </header>
+
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h1>The Future of Time</h1>
+        <p>Experience luxury and innovation with our cutting-edge timepieces</p>
+        <button class="cta-button">Explore Collection</button>
+      </div>
+      <img
+        src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg"
+        alt="Luxury Watch"
+        class="hero-image"
+        loading="lazy"
+      />
+    </section>
+
+    <section class="products" id="products">
+      <h2>Our Collection</h2>
+      <div class="product-grid">
+        <a href="products/chronos-x1.html" class="product-card" target="_blank">
+          <img
+            src="https://images.pexels.com/photos/280250/pexels-photo-280250.jpeg"
+            alt="Watch 1"
+            loading="lazy"
+          />
+          <h3>Chronos X1</h3>
+          <p>$999</p>
+        </a>
+        <a href="products/chronos-x2.html" class="product-card" target="_blank">
+          <img
+            src="https://images.pexels.com/photos/364822/rolex-watch-time-luxury-364822.jpeg"
+            alt="Watch 2"
+            loading="lazy"
+          />
+          <h3>Chronos X2</h3>
+          <p>$1299</p>
+        </a>
+        <a href="products/chronos-x3.html" class="product-card" target="_blank">
+          <img
+            src="https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg"
+            alt="Watch 3"
+            loading="lazy"
+          />
+          <h3>Chronos X3</h3>
+          <p>$1499</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <h2>Features</h2>
+      <div class="feature-grid">
+        <div class="feature">
+          <h3>Premium Materials</h3>
+          <p>Crafted with the finest materials for lasting durability</p>
+        </div>
+        <div class="feature">
+          <h3>Smart Technology</h3>
+          <p>Integrated with cutting-edge smart features</p>
+        </div>
+        <div class="feature">
+          <h3>Water Resistant</h3>
+          <p>Engineered to withstand depths of up to 100 meters</p>
+        </div>
+        <div class="feature">
+          <h3>Warranty</h3>
+          <p>5-year international warranty included</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <h2>Contact Us</h2>
+      <form class="contact-form">
+        <input type="text" placeholder="Name" required />
+        <input type="email" placeholder="Email" required />
+        <textarea rows="5" placeholder="Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Handle header scroll effect
+      const scrolledHeader = () => {
+        const header = document.querySelector(".header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      };
+
+      window.addEventListener("scroll", scrolledHeader);
+
+      // Smooth scroll for navigation
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Theme Toggle Functionality
+      const themeToggle = document.getElementById("themeToggle");
+      const html = document.documentElement;
+
+      // Check for saved theme preference
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      html.setAttribute("data-theme", savedTheme);
+
+      // Animate theme toggle with GSAP
+      themeToggle.addEventListener("click", () => {
+        const currentTheme = html.getAttribute("data-theme");
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+        gsap.to(themeToggle, {
+          rotate: 360,
+          duration: 0.5,
+          ease: "power2.inOut",
+          onComplete: () => {
+            html.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+          },
+        });
+      });
+
+      // Broadcast theme changes across tabs
+      window.addEventListener("storage", (e) => {
+        if (e.key === "theme") {
+          html.setAttribute("data-theme", e.newValue);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chronos X2 - Luxury Watch</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg-color: #0a0a0a;
+        --text-color: #fff;
+        --accent-color: #00ff88;
+        --header-bg: rgba(10, 10, 10, 0.9);
+      }
+
+      [data-theme="light"] {
+        --bg-color: #ffffff;
+        --text-color: #0a0a0a;
+        --accent-color: #00aa55;
+        --header-bg: rgba(255, 255, 255, 0.9);
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .header {
+        position: fixed;
+        width: 100%;
+        padding: 20px 50px;
+        background: var(--header-bg);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        transition: background-color 0.3s;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .nav-links a {
+        color: var(--text-color);
+        text-decoration: none;
+        margin-left: 30px;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent-color);
+      }
+
+      .product-details {
+        padding: 120px 50px 50px;
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        align-items: center;
+      }
+
+      .product-image {
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      .product-info {
+        padding: 20px;
+      }
+
+      .product-info h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      .price {
+        font-size: 1.5rem;
+        color: var(--accent-color);
+        margin-bottom: 20px;
+      }
+
+      .description {
+        margin-bottom: 30px;
+      }
+
+      .specs {
+        margin-bottom: 30px;
+      }
+
+      .specs h3 {
+        margin-bottom: 15px;
+      }
+
+      .specs ul {
+        list-style-position: inside;
+      }
+
+      .specs li {
+        margin-bottom: 10px;
+      }
+
+      .buy-button {
+        background: var(--accent-color);
+        color: var(--bg-color);
+        border: none;
+        padding: 15px 30px;
+        font-size: 1.1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
+
+      .buy-button:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <nav>
+        <div class="logo">CHRONOS</div>
+        <div class="nav-links">
+          <a href="../index.html#home">Home</a>
+          <a href="../index.html#products">Products</a>
+          <a href="../index.html#features">Features</a>
+          <a href="../index.html#contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="product-details">
+      <img
+        src="https://images.pexels.com/photos/364822/rolex-watch-time-luxury-364822.jpeg"
+        alt="Chronos X2 Watch"
+        class="product-image"
+      />
+      <div class="product-info">
+        <h1>Chronos X2</h1>
+        <p class="price">$1299</p>
+        <p class="description">
+          The Chronos X2 elevates luxury watchmaking to new heights. This
+          premium timepiece combines sophisticated design with advanced
+          functionality, featuring a ceramic case, dual time zone display, and
+          our proprietary chronograph movement.
+        </p>
+        <div class="specs">
+          <h3>Specifications</h3>
+          <ul>
+            <li>Case Material: High-Tech Ceramic</li>
+            <li>Crystal: Double-curved Sapphire Crystal</li>
+            <li>Movement: In-house Automatic Chronograph</li>
+            <li>Water Resistance: 200m</li>
+            <li>Case Diameter: 44mm</li>
+            <li>Power Reserve: 72 hours</li>
+          </ul>
+        </div>
+        <button class="buy-button">Add to Cart</button>
+      </div>
+    </main>
+
+    <script>
+      // Check theme on page load
+      const theme = localStorage.getItem("theme") || "dark";
+      document.documentElement.setAttribute("data-theme", theme);
+
+      // Listen for theme changes
+      window.addEventListener("storage", (e) => {
+        if (e.key === "theme") {
+          document.documentElement.setAttribute("data-theme", e.newValue);
+        }
+      });
+
+      gsap.from(".product-image", {
+        opacity: 0,
+        x: -100,
+        duration: 1,
+        scrollTrigger: {
+          trigger: ".product-image",
+          start: "top center",
+        },
+      });
+
+      gsap.from(".product-info", {
+        opacity: 0,
+        x: 100,
+        duration: 1,
+        scrollTrigger: {
+          trigger: ".product-info",
+          start: "top center",
+        },
+      });
+    </script>
+  </body>
+</html>
